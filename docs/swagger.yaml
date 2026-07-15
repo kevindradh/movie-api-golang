@@ -1,0 +1,211 @@
+basePath: /api
+definitions:
+  models.Movie:
+    properties:
+      director:
+        type: string
+      genre:
+        type: string
+      poster:
+        type: string
+      rating:
+        maximum: 10
+        minimum: 0
+        type: number
+      title:
+        type: string
+      year:
+        type: integer
+    required:
+    - director
+    - title
+    - year
+    type: object
+  response.ErrorResponse:
+    properties:
+      error:
+        example: Detail error in here
+        type: string
+      message:
+        example: There is an error
+        type: string
+      status:
+        example: error
+        type: string
+    type: object
+  response.ListResponse:
+    properties:
+      data: {}
+      message:
+        example: Success to collect data
+        type: string
+      status:
+        example: success
+        type: string
+    type: object
+  response.SuccessResponse:
+    properties:
+      data: {}
+      message:
+        example: Success to collect data
+        type: string
+      status:
+        example: success
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: A simple API to manage movies use Go (Gin) & MongoDB
+  title: MovieAPI
+  version: "1.0"
+paths:
+  /movies:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve list of movies, can filter by genre or title
+      parameters:
+      - description: Filter by genre
+        in: query
+        name: genre
+        type: string
+      - description: Filter by title
+        in: query
+        name: title
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.ListResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Retrieve all movies
+      tags:
+      - movies
+    post:
+      consumes:
+      - application/json
+      description: Insert a new movie
+      parameters:
+      - description: New movie
+        in: body
+        name: movie
+        required: true
+        schema:
+          $ref: '#/definitions/models.Movie'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/response.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Insert movie
+      tags:
+      - movies
+  /movies/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete movie by movie ID
+      parameters:
+      - description: Movie ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Delete movie
+      tags:
+      - movies
+    get:
+      consumes:
+      - application/json
+      description: Retrieve one movie details by movie ID
+      parameters:
+      - description: Movie ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Retrieve detail movie
+      tags:
+      - movies
+    put:
+      consumes:
+      - application/json
+      description: Update movie by movie ID
+      parameters:
+      - description: Movie ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Updated movie
+        in: body
+        name: movie
+        required: true
+        schema:
+          $ref: '#/definitions/models.Movie'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Update movie
+      tags:
+      - movies
+swagger: "2.0"
