@@ -16,6 +16,7 @@ func SetupRouter() *gin.Engine {
 		api.POST("/movies", handlers.CreateMovie)
 		api.PUT("/movies/:id", handlers.UpdateMovie)
 		api.DELETE("/movies/:id", handlers.DeleteMovie)
+		api.POST("/movies/:id/poster", handlers.UploadPoster)
 	}
 
 	return r

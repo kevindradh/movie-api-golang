@@ -19,6 +19,7 @@ import (
 
 func main() {
 	config.ConnectDB()
+	config.ConnectMinio()
 
 	r := routes.SetupRouter()
 
