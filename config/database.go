@@ -13,9 +13,7 @@ var DB *mongo.Client
 var MovieCollection *mongo.Collection
 
 func ConnectDB() {
-	uri := "mongodb://localhost:27017"
-
-	clientOptions := options.Client().ApplyURI(uri)
+	clientOptions := options.Client().ApplyURI(Env.MongoURI)
 
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
@@ -33,5 +31,5 @@ func ConnectDB() {
 	log.Println("Connected to MongoDB!")
 
 	DB = client
-	MovieCollection = DB.Database("movie_api").Collection("movies")
+	MovieCollection = DB.Database(Env.MongoDBName).Collection("movies")
 }

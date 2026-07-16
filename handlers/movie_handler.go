@@ -287,7 +287,7 @@ func UploadPoster(c *gin.Context) {
 	}
 
 	// Poster URL
-	posterURL := fmt.Sprintf("http://localhost:9000/%s/%s", config.MinioBucket, objName)
+	posterURL := fmt.Sprintf("%s/%s/%s", config.Env.MinioPublicURL, config.MinioBucket, objName)
 
 	// Update movie poster
 	update := bson.M{"$set": bson.M{"poster": posterURL}}

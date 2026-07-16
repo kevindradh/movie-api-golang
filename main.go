@@ -18,6 +18,7 @@ import (
 // @BasePath  /api
 
 func main() {
+	config.LoadEnv()
 	config.ConnectDB()
 	config.ConnectMinio()
 

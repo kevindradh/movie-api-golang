@@ -11,14 +11,9 @@ var MinioClient *minio.Client
 var MinioBucket = "movie-posters"
 
 func ConnectMinio() {
-	endpoint := "localhost:9000"
-	accessKey := "minioadmin"
-	secretKey := "minioadmin"
-	useSSL := false
-
-	client, err := minio.New(endpoint, &minio.Options{
-		Creds:  credentials.NewStaticV4(accessKey, secretKey, ""),
-		Secure: useSSL,
+	client, err := minio.New(Env.MinioEndpoint, &minio.Options{
+		Creds:  credentials.NewStaticV4(Env.MinioAccessKey, Env.MinioSecretKey, ""),
+		Secure: Env.MinioUseSSL,
 	})
 	if err != nil {
 		log.Fatal("MinIO connect fail:", err)
