@@ -13,9 +13,13 @@ import (
 // @title           MovieAPI
 // @version         1.0
 // @description     A simple API to manage movies use Go (Gin) & MongoDB (Test)
+// @host      		localhost:8080
+// @BasePath  		/api
 
-// @host      localhost:8080
-// @BasePath  /api
+// @securityDefinitions.apikey 	BearerAuth
+// @in 							header
+// @name 						Authorization
+// @description 				Type "Bearer" following by space and JWT token. Example: "Bearer eyKJdkksidsd..."
 
 func main() {
 	config.LoadEnv()

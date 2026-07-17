@@ -72,3 +72,17 @@ func InternalError(c *gin.Context, message string, err error) {
 	}
 	c.JSON(500, resp)
 }
+
+func Unauthorized(c *gin.Context, message string) {
+	c.JSON(401, ErrorResponse{
+		Status:  "error",
+		Message: message,
+	})
+}
+
+func Forbidden(c *gin.Context, message string) {
+	c.JSON(403, ErrorResponse{
+		Status:  "error",
+		Message: message,
+	})
+}

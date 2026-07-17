@@ -95,6 +95,7 @@ func GetMovieByID(c *gin.Context) {
 // @Summary 		Insert movie
 // @Description 	Insert a new movie
 // @Tags 			movies
+// @Security		BearerAuth
 // @Accept 			json
 // @Produce 		json
 // @Param 			movie body models.Movie true "New movie"
@@ -124,6 +125,7 @@ func CreateMovie(c *gin.Context) {
 
 // UpdateMovie godoc
 // @Tags 			movies
+// @Security		BearerAuth
 // @Summary 		Update movie
 // @Description 	Update movie by movie ID
 // @Accept 			json
@@ -181,6 +183,7 @@ func UpdateMovie(c *gin.Context) {
 // @Summary 		Delete movie
 // @Description 	Delete movie by movie ID
 // @Tags 			movies
+// @Security		BearerAuth
 // @Accept 			json
 // @Produce 		json
 // @Param 			id path string true "Movie ID"
@@ -214,18 +217,19 @@ func DeleteMovie(c *gin.Context) {
 }
 
 // UploadPoster godoc
-// @Summary Upload movie poster
-// @Description Upload poster for specific movie by movie ID, saved to MinIO
-// @Tags movies
-// @Accept multipart/form-data
-// @Produce json
-// @Param id path string true "Movie ID"
-// @Param poster formData file true "File poster (jpg, png, webp, maks 5MB)"
-// @Success 200 {object} response.SuccessResponse
-// @Failure 400 {object} response.ErrorResponse
-// @Failure 404 {object} response.ErrorResponse
-// @Failure 500 {object} response.ErrorResponse
-// @Router /movies/{id}/poster [post]
+// @Summary 		Upload movie poster
+// @Description 	Upload poster for specific movie by movie ID, saved to MinIO
+// @Tags 			movies
+// @Security		BearerAuth
+// @Accept 			multipart/form-data
+// @Produce 		json
+// @Param 			id path string true "Movie ID"
+// @Param 			poster formData file true "File poster (jpg, png, webp, maks 5MB)"
+// @Success 		200 {object} response.SuccessResponse
+// @Failure 		400 {object} response.ErrorResponse
+// @Failure 		404 {object} response.ErrorResponse
+// @Failure 		500 {object} response.ErrorResponse
+// @Router 			/movies/{id}/poster [post]
 func UploadPoster(c *gin.Context) {
 	ctx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
 	defer cancel()

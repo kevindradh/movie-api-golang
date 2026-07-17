@@ -3,6 +3,7 @@ package config
 import (
 	"log"
 	"os"
+	"strconv"
 
 	"github.com/joho/godotenv"
 )
@@ -19,6 +20,9 @@ type EnvConfig struct {
 	MinioUseSSL    bool
 	MinioBucket    string
 	MinioPublicURL string
+
+	JWTSecret      string
+	JWTExpireHours int
 }
 
 var Env EnvConfig
@@ -39,6 +43,16 @@ func LoadEnv() {
 		MinioBucket:    getEnv("MINIO_BUCKET", "movies"),
 		MinioUseSSL:    getEnvBool("MINIO_USE_SSL", false),
 		MinioPublicURL: getEnv("MINIO_PUBLIC_URL", ""),
+
+		JWTSecret:      getEnv("JWT_SECRET", ""),
+		JWTExpireHours: getEnvInt("JWT_EXPIRE_HOURS", 24),
+	}
+
+	if Env.MinioAccessKey == "" || Env.MinioSecretKey == "" {
+		log.Fatal("Minio access key or secret key required")
+	}
+	if Env.JWTSecret == "" {
+		log.Fatal("JWT secret key required")
 	}
 }
 
@@ -55,4 +69,16 @@ func getEnvBool(key string, fallback bool) bool {
 		return fallback
 	}
 	return value == "true" || value == "1"
+}
+
+func getEnvInt(key string, fallback int) int {
+	value, exist := os.LookupEnv(key)
+	if !exist {
+		return fallback
+	}
+	i, err := strconv.Atoi(value)
+	if err != nil {
+		return fallback
+	}
+	return i
 }

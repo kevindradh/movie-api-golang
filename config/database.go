@@ -11,6 +11,7 @@ import (
 
 var DB *mongo.Client
 var MovieCollection *mongo.Collection
+var UserCollection *mongo.Collection
 
 func ConnectDB() {
 	clientOptions := options.Client().ApplyURI(Env.MongoURI)
@@ -32,4 +33,5 @@ func ConnectDB() {
 
 	DB = client
 	MovieCollection = DB.Database(Env.MongoDBName).Collection("movies")
+	UserCollection = DB.Database(Env.MongoDBName).Collection("users")
 }
